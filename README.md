@@ -1,4 +1,7 @@
+![CleanShot 2024-09-12 at 16 10 58@2x](https://github.com/user-attachments/assets/91a9d730-4fed-4a48-a37d-ba81d880b893)
+
 # Cycle Team Changelog App
+
 
 This project is a technical test for the Cycle team. The goal is to implement a small changelog application that allows users to view and add public releases.
 
