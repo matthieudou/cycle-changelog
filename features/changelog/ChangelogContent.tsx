@@ -46,7 +46,7 @@ export function ChangelogContent({
                       {releaseNoteEdge.node.title}
                     </h3>
                     <div
-                      className="mt-8 prose prose-img:rounded-xl"
+                      className="mt-8 prose prose-img:rounded-xl prose-img:aspect-[3/2] object-cover"
                       dangerouslySetInnerHTML={{
                         __html: releaseNoteEdge.node.htmlContent,
                       }}
