@@ -37,7 +37,7 @@ export function TableOfContents({
         role="presentation"
         className="absolute h-8 inset-x-0 top-0 bg-gradient-to-b from-white via-white-/40 to-white/0 pointer-events-none z-10"
       />
-      <div className="max-h-80 overflow-y-clip">
+      <div className="max-h-80 overflow-y-hidden">
         <motion.ul
           ref={containerRef}
           animate={{

@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
-import { client } from "./apolloClient";
+import { client } from "@/services/api";
 import { getRandomNumberBetween } from "@/utils/numbers";
 import { releaseNoteFactory } from "./seed";
-import { Release, Connection } from "../models";
+import { Release, Connection } from "@/services/models";
 
 export type GetChangelogQueryData = {
   changelog: {
