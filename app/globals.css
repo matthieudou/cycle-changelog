@@ -8,4 +8,8 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .scrollbar-hidden {
+    scrollbar-width: none;
+  }
 }
