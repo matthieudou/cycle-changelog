@@ -5,8 +5,13 @@ import { format } from "date-fns";
 import { Fragment } from "react";
 import { TableOfContents } from "./TableOfContents";
 import { usePathname } from "next/navigation";
+import { Connection, Release } from "@/services/models";
 
-export function ChangelogContent({ changelog }: { changelog: any }) {
+export function ChangelogContent({
+  releasesConnection,
+}: {
+  releasesConnection: Connection<Release>;
+}) {
   const pathname = usePathname();
 
   return (
@@ -18,7 +23,7 @@ export function ChangelogContent({ changelog }: { changelog: any }) {
 
         <TableOfContents
           className="mt-4"
-          links={changelog.releases.edges.map((edge) => ({
+          links={releasesConnection.edges.map((edge) => ({
             id: edge.node.id,
             title: format(edge.node.date, "MMMM dd, yyyy"),
           }))}
@@ -27,7 +32,7 @@ export function ChangelogContent({ changelog }: { changelog: any }) {
       </aside>
 
       <div className="flex-1">
-        {changelog.releases.edges.map((edge) => (
+        {releasesConnection.edges.map((edge) => (
           <Fragment key={edge.node.id}>
             <section className="space-y-16">
               <h2 className="text-3xl font-bold scroll-mt-12" id={edge.node.id}>

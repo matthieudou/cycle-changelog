@@ -2,59 +2,7 @@ import { gql } from "@apollo/client";
 import { client } from "./apolloClient";
 import { getRandomNumberBetween } from "@/utils/numbers";
 import { releaseNoteFactory } from "./seed";
-
-export const GET_CHANGELOG = gql`
-  query GetChangelog {
-    changelog: getChangelogBySlug(slug: "interview-test") {
-      id
-      isPublished
-      slug
-      title
-      name
-      releases {
-        edges {
-          node {
-            id
-            title
-            date
-            releaseNotes {
-              edges {
-                node {
-                  id
-                  title
-                  htmlContent
-                  position
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-type Connection<T> = {
-  edges: Edge<T>[];
-};
-
-type Edge<T> = {
-  node: T;
-};
-
-type Release = {
-  id: string;
-  title: string;
-  date: string;
-  releaseNotes: Connection<ReleaseNote>;
-};
-
-type ReleaseNote = {
-  id: string;
-  title: string;
-  htmlContent: string;
-  position: number;
-};
+import { Release, Connection } from "../models";
 
 export type GetChangelogQueryData = {
   changelog: {
@@ -67,13 +15,45 @@ export type GetChangelogQueryData = {
   };
 };
 
-export async function getChangelog() {
+export async function getChangelog(): Promise<GetChangelogQueryData> {
   const { data } = await client().query<GetChangelogQueryData>({
-    query: GET_CHANGELOG,
+    query: gql`
+      query GetChangelog {
+        changelog: getChangelogBySlug(slug: "interview-test") {
+          id
+          isPublished
+          slug
+          title
+          name
+          releases {
+            edges {
+              node {
+                id
+                title
+                date
+                releaseNotes {
+                  edges {
+                    node {
+                      id
+                      title
+                      htmlContent
+                      position
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
   });
+
   return {
-    ...data.changelog,
-    releases: enhanceEmptyReleasesWithReleaseNotes(data.changelog.releases),
+    changelog: {
+      ...data.changelog,
+      releases: enhanceEmptyReleasesWithReleaseNotes(data.changelog.releases),
+    },
   };
 }
 
