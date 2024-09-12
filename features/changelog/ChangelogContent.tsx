@@ -20,7 +20,7 @@ export function ChangelogContent({
 
   return (
     <main className="py-12 md:py-32 px-8 max-w-screen-xl mx-auto flex">
-      <aside className="sticky self-start top-8 w-64 hidden md:block">
+      <aside className="sticky self-start top-12 w-64 hidden md:block">
         <Link
           href={`${pathname}/release/create`}
           className="text-blue-cycle -mx-3 inline-block px-3 py-1 hover:bg-blue-50 rounded-lg transition"
@@ -29,7 +29,7 @@ export function ChangelogContent({
         </Link>
 
         <TableOfContents
-          className="mt-1"
+          className="mt-2"
           links={releasesConnection.edges.map((edge) => ({
             id: edge.node.id,
             title: format(edge.node.date, "MMMM dd, yyyy"),

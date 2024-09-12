@@ -6,7 +6,7 @@ import { ShipButton } from "./ShipButton";
 export function ChangelogHeader() {
   return (
     <motion.header
-      className="pt-8 md:pt-24 pb-24 md:pb-12 flex flex-col justify-center text-center"
+      className="pt-8 md:pt-24 pb-24 md:pb-12 flex flex-col justify-center text-center overflow-x-clip"
       initial={
         {
           "--gradient-center": "50%",
