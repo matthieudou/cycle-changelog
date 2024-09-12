@@ -1,28 +1,28 @@
 import { gql } from "@apollo/client";
 import { client } from "./apolloClient";
+import { getRandomNumberBetween } from "@/utils/numbers";
+import { releaseNoteFactory } from "./seed";
 
 export const GET_CHANGELOG = gql`
   query GetChangelog {
     changelog: getChangelogBySlug(slug: "interview-test") {
-      id,
-      isPublished,
-      slug,
-      title,
-      name,
+      id
+      isPublished
+      slug
+      title
+      name
       releases {
         edges {
-          cursor,
           node {
-            id,
-            title,
-            date,
+            id
+            title
+            date
             releaseNotes {
               edges {
-                cursor,
                 node {
-                  id,
-                  title,
-                  htmlContent,
+                  id
+                  title
+                  htmlContent
                   position
                 }
               }
@@ -32,30 +32,29 @@ export const GET_CHANGELOG = gql`
       }
     }
   }
-`
+`;
 
 type Connection<T> = {
   edges: Edge<T>[];
-}
+};
 
 type Edge<T> = {
-  cursor: string;
   node: T;
-}
+};
 
 type Release = {
   id: string;
   title: string;
   date: string;
-  releaseNotes: Connection<ReleaseNote>
-}
+  releaseNotes: Connection<ReleaseNote>;
+};
 
 type ReleaseNote = {
   id: string;
   title: string;
   htmlContent: string;
   position: number;
-}
+};
 
 export type GetChangelogQueryData = {
   changelog: {
@@ -64,16 +63,45 @@ export type GetChangelogQueryData = {
     slug: string;
     title: string;
     name: string;
-    releases: Connection<Release>
-  }
-}
+    releases: Connection<Release>;
+  };
+};
 
-export async function getChangelog () {
-  const { data } = await client().query<GetChangelogQueryData>({ query: GET_CHANGELOG })
+export async function getChangelog() {
+  const { data } = await client().query<GetChangelogQueryData>({
+    query: GET_CHANGELOG,
+  });
   return {
     ...data.changelog,
-    releases: {
-      edges: data.changelog.releases.edges.filter(edge => edge.node.releaseNotes.edges.length > 0)
-    }
-  }
+    releases: enhanceEmptyReleasesWithReleaseNotes(data.changelog.releases),
+  };
+}
+
+function enhanceEmptyReleasesWithReleaseNotes(
+  releases: Connection<Release>
+): Connection<Release> {
+  return {
+    edges: releases.edges.map((edge) => {
+      if (edge.node.releaseNotes.edges.length) return edge;
+
+      const releaseNotes = Array.from(
+        { length: getRandomNumberBetween(1, 3) },
+        () => releaseNoteFactory()
+      );
+
+      return {
+        node: {
+          ...edge.node,
+          releaseNotes: {
+            edges: releaseNotes.map((releaseNote, index) => ({
+              node: {
+                ...releaseNote,
+                position: index,
+              },
+            })),
+          },
+        },
+      };
+    }),
+  };
 }
