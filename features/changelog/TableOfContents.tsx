@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/utils/classNames";
-import Link from "next/link";
-import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useMemo, useRef } from "react";
 
 type SidebarLink = {
   id: string;
@@ -16,14 +16,13 @@ export function TableOfContents({
 }: {
   className?: string;
   links: SidebarLink[];
-  activeId: string;
+  activeId?: string;
 }) {
-  useEffect(() => {
-    const activeElement = document.getElementById(`link-${activeId}`);
-    if (activeElement) {
-      activeElement.scrollIntoView({ block: "center", behavior: "smooth" });
-    }
-  }, [activeId]);
+  const containerRef = useRef<HTMLUListElement>(null);
+  const activeElementIndex = useMemo(
+    () => links.findIndex((link) => link.id === activeId),
+    [activeId, links]
+  );
 
   const handleClick = (id: string) => {
     const element = document.getElementById(id);
@@ -36,28 +35,43 @@ export function TableOfContents({
     <div className={cn("relative", className)}>
       <div
         role="presentation"
-        className="absolute h-8 inset-x-0 top-0 bg-gradient-to-b from-white via-white-/40 to-white/0"
+        className="absolute h-8 inset-x-0 top-0 bg-gradient-to-b from-white via-white-/40 to-white/0 pointer-events-none z-10"
       />
-      <ul className="max-h-80 overflow-y-auto scrollbar-hidden py-6">
-        {links.map((link) => (
-          <li
-            key={link.id}
-            className={cn(
-              "text-sm",
-              link.id === activeId
-                ? "text-neutral-900 font-medium my-6 first:mt-0 last:mb-0"
-                : "my-2 text-neutral-500"
-            )}
-            id={`link-${link.id}`}
-          >
-            <button onClick={() => handleClick(link.id)}>{link.title}</button>
-          </li>
-        ))}
-        <div
-          role="presentation"
-          className="absolute h-12 inset-x-0 bottom-0 bg-gradient-to-t from-white to-white/0"
-        />
-      </ul>
+      <div className="max-h-80 overflow-y-hidden py-4">
+        <motion.ul
+          ref={containerRef}
+          animate={{
+            y: Math.min(0, -(activeElementIndex * 28 - 100)),
+          }}
+        >
+          {links.map((link) => (
+            <motion.li
+              key={link.id}
+              className={cn(
+                "text-sm",
+                link.id === activeId
+                  ? "text-neutral-900 font-medium"
+                  : "text-neutral-500"
+              )}
+              initial={{
+                marginTop: link.id === activeId ? 24 : 8,
+                marginBottom: link.id === activeId ? 24 : 8,
+              }}
+              animate={{
+                marginTop: link.id === activeId ? 24 : 8,
+                marginBottom: link.id === activeId ? 24 : 8,
+              }}
+              id={`link-${link.id}`}
+            >
+              <button onClick={() => handleClick(link.id)}>{link.title}</button>
+            </motion.li>
+          ))}
+        </motion.ul>
+      </div>
+      <div
+        role="presentation"
+        className="absolute h-8 inset-x-0 bottom-0 bg-gradient-to-t from-white to-white/0 pointer-events-none z-10"
+      />
     </div>
   );
 }

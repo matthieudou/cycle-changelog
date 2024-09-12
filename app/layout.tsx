@@ -13,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans">
-        {children}
-      </body>
+      <body className="font-sans overflow-x-hidden">{children}</body>
     </html>
   );
 }
