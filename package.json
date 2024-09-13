@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@headlessui/react": "^2.1.8",
     "@heroicons/react": "^2.1.5",
     "@tanstack/react-form": "^0.32.0",
     "@tanstack/zod-form-adapter": "^0.32.0",
