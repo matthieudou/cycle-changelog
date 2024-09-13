@@ -1,42 +1,25 @@
 "use client";
 
-import Link from "next/link";
-import { format } from "date-fns";
 import { Fragment, useState } from "react";
-import { TableOfContents } from "./TableOfContents";
-import { usePathname } from "next/navigation";
 import { Connection, Release } from "@/services/models";
 import { ChangelogRelease } from "./ChangelogRelease";
+import { ChangelogMenu } from "./ChangelogMenu";
 
 export function ChangelogContent({
   releasesConnection,
 }: {
   releasesConnection: Connection<Release>;
 }) {
-  const pathname = usePathname();
   const [activeId, setActiveId] = useState<string>(
     releasesConnection.edges[0].node.id
   );
 
   return (
     <main className="pb-12 md:py-32 px-4 md:px-8 max-w-screen-xl mx-auto flex">
-      <aside className="sticky self-start top-12 w-64 hidden md:block">
-        <Link
-          href={`${pathname}/release/create`}
-          className="text-blue-cycle -mx-3 inline-block px-3 py-1 hover:bg-blue-50 rounded-lg transition"
-        >
-          Add release
-        </Link>
-
-        <TableOfContents
-          className="mt-2"
-          links={releasesConnection.edges.map((edge) => ({
-            id: edge.node.id,
-            title: format(edge.node.date, "MMMM dd, yyyy"),
-          }))}
-          activeId={activeId}
-        />
-      </aside>
+      <ChangelogMenu
+        releasesConnection={releasesConnection}
+        activeId={activeId}
+      />
 
       <div className="flex-1">
         {releasesConnection.edges.map((releaseEdge) => (
