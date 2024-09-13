@@ -25,8 +25,8 @@ export default function Page() {
   });
 
   return (
-    <main className="h-screen flex items-center justify-center relative">
-      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl px-4 pt-4 pb-8">
+    <main className="h-screen flex flex-col md:items-center md:justify-center relative">
+      <div className="relative w-full md:max-w-lg bg-white md:rounded-2xl md:shadow-xl px-4 pt-4 pb-8">
         <div className="relative ">
           <CardHeader className="absolute inset-0 rounded-2xl" />
           <div className="flex flex-col items-center gap-2 py-10 relative opacity-80">
@@ -34,6 +34,7 @@ export default function Page() {
             Powered by Cycle
           </div>
         </div>
+
         <h1 className="mt-8 text-2xl font-bold text-center text-balance">
           New release
         </h1>
