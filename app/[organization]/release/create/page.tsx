@@ -8,16 +8,18 @@ import Link from "next/link";
 import { cn } from "@/utils/classNames";
 import { CycleLogo } from "@/features/ui/icons";
 import { createAndPublishRelease } from "./actions";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
       title: "",
       date: "",
     },
     onSubmit: async ({ value }) => {
-      const response = await createAndPublishRelease(value.title, value.date);
-      console.log(response);
+      await createAndPublishRelease(value.title, value.date);
+      router.push("/");
     },
     validatorAdapter: zodValidator(),
   });
@@ -25,9 +27,12 @@ export default function Page() {
   return (
     <main className="h-screen flex items-center justify-center relative">
       <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-xl px-4 pt-4 pb-8">
-        <div className="rounded-2xl flex flex-col items-center gap-2 py-10 bg-neutral-200">
-          <CycleLogo className="size-6"></CycleLogo>
-          Powered by Cycle
+        <div className="relative ">
+          <CardHeader className="absolute inset-0 rounded-2xl" />
+          <div className="flex flex-col items-center gap-2 py-10 relative opacity-80">
+            <CycleLogo className="size-6"></CycleLogo>
+            Powered by Cycle
+          </div>
         </div>
         <h1 className="mt-8 text-2xl font-bold text-center text-balance">
           New release
@@ -101,13 +106,13 @@ export default function Page() {
             type="submit"
             className="bg-blue-cycle text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-cycle/90 transition"
           >
-            Create release
+            {form.state.isSubmitting ? "Creating release..." : "Create release"}
           </button>
         </form>
 
         <Link
           href=".."
-          className="p-2 block text-center hover:text-neutral-700 text-neutral-900 transition"
+          className="p-2 block text-center hover:text-neutral-900 text-neutral-500 transition"
         >
           Cancel
         </Link>
@@ -129,5 +134,14 @@ function FieldErrors({
     <em role="alert" className={cn("block text-red-500", className)}>
       {errors.join(", ")}
     </em>
+  );
+}
+
+function CardHeader({ className }: { className?: string }) {
+  return (
+    <div className={cn("bg-[#ECF7FF] overflow-clip", className)}>
+      <div className="absolute size-64 rounded-full blur-3xl bg-[#E7B6F4]/20 top-0 left-0"></div>
+      <div className="absolute size-64 rounded-full blur-3xl bg-[#F6F3FD] bottom-0 right-0"></div>
+    </div>
   );
 }

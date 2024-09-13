@@ -2,17 +2,18 @@
 
 import { client } from "@/services/api";
 import { gql } from "@apollo/client";
+import { revalidatePath } from "next/cache";
 
 export async function createAndPublishRelease(
   title: string,
   date: string
 ): Promise<void> {
-  const response = await client().mutate({
+  const createResponse = await client().mutate({
     mutation: gql`
-      mutation CreateAndPublishRelease($date: Date!, $title: String!) {
+      mutation CreateAndPublishRelease {
         createRelease(
-          date: $date
-          title: $title
+          date: "${date}"
+          title: "${title}"
           productId: "UHJvZHVjdF8zNThkYmUxOS0xNThiLTQ2ZGItYmJiNi1lMTI3ZTM2OGI1ODQ="
         ) {
           id
@@ -25,18 +26,15 @@ export async function createAndPublishRelease(
     },
   });
 
-  console.log(response);
-
-  await client().mutate({
+  const publishResponse = await client().mutate({
     mutation: gql`
-      mutation PublishRelease($id: ID!) {
-        publishRelease(id: $id) {
+      mutation PublishRelease {
+        publishRelease(id: "${createResponse.data.createRelease.id}") {
           id
         }
       }
     `,
-    variables: {
-      id: response.data.createRelease.id,
-    },
   });
+
+  return publishResponse.data.publishRelease;
 }
