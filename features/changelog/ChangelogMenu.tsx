@@ -94,7 +94,7 @@ export function ChangelogMenu({
               document
                 .getElementById(`link-${activeId}`)
                 ?.scrollIntoView({ block: "center" });
-            }, 100);
+            }, 150);
           }}
         >
           {links[activeElementIndex].title}
@@ -127,7 +127,7 @@ export function ChangelogMenu({
                       setOpen(false);
                       setTimeout(() => {
                         handleElementClick(link.id);
-                      }, 200);
+                      }, 150);
                     }}
                   >
                     {link.title}

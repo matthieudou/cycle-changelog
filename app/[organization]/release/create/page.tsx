@@ -25,7 +25,7 @@ export default function Page() {
   });
 
   return (
-    <main className="h-screen flex flex-col md:items-center md:justify-center relative">
+    <main className="md:h-screen flex flex-col md:items-center md:justify-center relative">
       <div className="relative w-full md:max-w-lg bg-white md:rounded-2xl md:shadow-xl px-4 pt-4 pb-8">
         <div className="relative ">
           <CardHeader className="absolute inset-0 rounded-2xl" />
@@ -60,6 +60,7 @@ export default function Page() {
               <label>
                 <div className="mb-1 font-medium">Release title</div>
                 <input
+                  type="text"
                   className={cn(
                     "border rounded-lg w-full px-3 py-2",
                     field.state.meta.errors.length > 0 && "border-red-500"
