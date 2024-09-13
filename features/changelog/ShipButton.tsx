@@ -77,7 +77,7 @@ export function ShipButton({ children }: { children: ReactNode }) {
             },
           },
         }}
-        className="rounded-xl whitespace-nowrap before:inset-0 p-0.5 mx-1 z-10 relative"
+        className="pointer-events-none md:pointer-events-auto rounded-xl whitespace-nowrap before:inset-0 p-0.5 mx-1 z-10 relative"
         onClick={handleNewTag}
         style={{
           color: `rgb(${defaultTag.color} / 1)`,
@@ -86,7 +86,7 @@ export function ShipButton({ children }: { children: ReactNode }) {
         }}
       >
         <span
-          className="px-3 py-1 inline-block whitespace-nowrap font-semibold"
+          className="px-2 md:px-3 py-0.5 md:py-1 inline-block whitespace-nowrap font-semibold"
           style={{
             textShadow: `0 -0.5px 0.2px white, 0 0.5px 0.2px rgba(${defaultTag.color} / 0.5)`,
             background: `linear-gradient(0deg, rgba(${defaultTag.color} / 0.2), rgba(${defaultTag.color} / 0.1)) white`,

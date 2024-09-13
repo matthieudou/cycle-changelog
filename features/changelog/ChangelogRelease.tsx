@@ -30,17 +30,17 @@ export function ChangelogRelease({
   };
 
   return (
-    <section className="space-y-16 group">
+    <section className="space-y-6 md:space-y-16 group">
       <div className="flex items-center justify-between gap-4">
         <h2
           ref={ref}
-          className="text-3xl font-bold scroll-mt-12"
+          className="text-2xl md:text-3xl font-bold scroll-mt-12"
           id={release.id}
         >
           {release.title}
         </h2>
         <button
-          className="flex items-center gap-2 text-blue-cycle opacity-0 group-hover:opacity-100 transition"
+          className="hidden lg:flex items-center gap-2 text-blue-cycle opacity-0 group-hover:opacity-100 transition"
           onClick={() =>
             handleCopy(
               `${window.location.origin}${window.location.pathname}#${release.id}`
@@ -64,11 +64,11 @@ export function ChangelogRelease({
       {release.releaseNotes.edges.map((releaseNoteEdge) => (
         <article key={releaseNoteEdge.node.id}>
           <div>
-            <h3 className="font-semibold text-2xl">
+            <h3 className="font-semibold text-lg md:text-2xl">
               {releaseNoteEdge.node.title}
             </h3>
             <div
-              className="mt-8 prose max-w-full prose-img:rounded-xl prose-img:aspect-[3/2] object-cover"
+              className="mt-4 md:mt-8 prose-sm sm:prose max-w-full prose-img:rounded-xl prose-img:aspect-[3/2] object-cover"
               dangerouslySetInnerHTML={{
                 __html: releaseNoteEdge.node.htmlContent,
               }}

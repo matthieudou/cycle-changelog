@@ -6,7 +6,7 @@ import { ShipButton } from "./ShipButton";
 export function ChangelogHeader() {
   return (
     <motion.header
-      className="pt-8 md:pt-24 pb-24 md:pb-12 flex flex-col justify-center text-center overflow-x-clip"
+      className="px-4 pt-8 md:pt-24 pb-12 flex flex-col justify-center text-center overflow-x-clip"
       initial={
         {
           "--gradient-center": "50%",
@@ -46,8 +46,10 @@ export function ChangelogHeader() {
         } as any
       }
     >
-      <h1 className="text-6xl text-gray-900 font-sans font-bold">Changelog</h1>
-      <p className="mt-10 font-medium text-2xl">
+      <h1 className="text-4xl md:text-6xl text-gray-900 font-sans font-bold">
+        Changelog
+      </h1>
+      <p className="mt-6 md:mt-10 font-medium text-lg md:text-2xl text-balance">
         What did you <ShipButton>Ship</ShipButton> this week ?
       </p>
       <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-4 justify-center items-center">

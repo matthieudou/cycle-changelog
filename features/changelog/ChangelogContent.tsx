@@ -19,7 +19,7 @@ export function ChangelogContent({
   );
 
   return (
-    <main className="py-12 md:py-32 px-8 max-w-screen-xl mx-auto flex">
+    <main className="pb-12 md:py-32 px-4 md:px-8 max-w-screen-xl mx-auto flex">
       <aside className="sticky self-start top-12 w-64 hidden md:block">
         <Link
           href={`${pathname}/release/create`}
